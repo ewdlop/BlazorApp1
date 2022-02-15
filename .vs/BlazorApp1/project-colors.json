@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "1c725c37-585a-44f8-b4f3-b3b38b4f0c63": {
+      "ProjectGuid": "1c725c37-585a-44f8-b4f3-b3b38b4f0c63",
+      "DisplayName": "BlazorApp1",
+      "ColorIndex": 0
+    },
+    "4f54a574-f965-4ea0-bffe-0caf3c8012e7": {
+      "ProjectGuid": "4f54a574-f965-4ea0-bffe-0caf3c8012e7",
+      "DisplayName": "Dm2bdUiExtensions",
+      "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 2
+}

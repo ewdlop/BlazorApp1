@@ -1,0 +1,21 @@
+@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?"/>
+
+@foreach (var person in PersonRepository.GetPeople())
+{
+    <PersonRenderer Person="person"/>
+}
+
+<DonutChartExtended @bind-SelectedIndex="SelectedIndex"
+                    InputData="GetInputData()"
+                    InputLabels="GetInputLabels()"
+                    Height="300"
+                    Width="300"
+                    OnSectionMouseOverEventCallback="OnSectionMouseOverEventCallback"/>
