@@ -1,0 +1,47 @@
+﻿@namespace MudBlazor.DM2BDCustom
+@using MudBlazor.DM2BDCustom.Charts
+@inherits MudChartBase
+
+<CascadingValue Value="@this" IsFixed="true">
+    <div @attributes="UserAttributes" class="@Classname" style="@Style" dir="ltr">
+        @{ 
+            switch (ChartType)
+            {
+                case ChartType.MiniDonut:
+                    <MiniDonut Dense="true"
+                        NumberFormatInfo="@NumberFormatInfo"
+                        InputData="@InputData"
+                        InputDataCategories="@InputDataCategories"
+                        InputDataDictionary="@InputDataDictionary"
+                        InputLabels="@InputLabels"
+                        InputColorsHex="@InputColorsHex">
+                    </MiniDonut>
+                    break;
+                case ChartType.Donut:
+                    <Donut NumberFormatInfo="@NumberFormatInfo"
+                        FilteredIndexes="@FilteredIndexes"
+                        LegendSearchText="@LegendSearchText"
+                        @bind-SelectedIndex="@SelectedIndex"
+                        InputData="@InputData"
+                        InputDataCategories="@InputDataCategories"
+                        InputDataDictionary="@InputDataDictionary"
+                        InputLabels="@InputLabels"
+                        InputColorsHex="@InputColorsHex"
+                        OnMudGrid="@OnMudGrid">
+                    </Donut>
+                    break;
+                case ChartType.Pie:
+                    <MudBlazor.Charts.Pie InputData="@InputData" @bind-SelectedIndex="@SelectedIndex" InputLabels="@InputLabels"></MudBlazor.Charts.Pie>
+                    break;
+                case ChartType.Line:
+                    <MudBlazor.Charts.Line ChartSeries="@ChartSeries" @bind-SelectedIndex="@SelectedIndex" XAxisLabels="@XAxisLabels"></MudBlazor.Charts.Line>
+                    break;
+                case ChartType.Bar:
+                    <MudBlazor.Charts.Bar ChartSeries="@ChartSeries" @bind-SelectedIndex="@SelectedIndex" XAxisLabels="@XAxisLabels"></MudBlazor.Charts.Bar>
+                    break;
+                default:
+                    break;
+            }
+        }
+    </div>
+</CascadingValue>

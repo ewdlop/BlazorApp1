@@ -1,0 +1,48 @@
+﻿@namespace MudBlazor.DM2BDCustom.Charts
+@inherits MudBlazor.DM2BDCustom.MudChartBase
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     @attributes="UserAttributes" class="@Classname" width="@ParentWidth" height="@ParentHeight" viewBox="0 0 42 42">
+    <MudBlazor.Charts.Filters />
+    <circle class="mud-donut-ring" cx="20" cy="20" r="15.91549430918954"></circle>
+    @foreach (var item in _circles)
+    {
+        <circle class="mud-chart-serie mud-donut-segment"
+                @onmouseover="(mouseEventArgs) =>
+                {
+                    ShowMudChip = true;
+                    MouseOverX = mouseEventArgs.OffsetX;
+                    MouseOverY = mouseEventArgs.OffsetY + 50;
+                    HoveredIndex = item.Index;
+                }"
+                stroke="@item.ColorHex"
+                cx="@item.CX"
+                cy="@item.CY"
+                r="@item.Radius"
+                stroke-dasharray="@item.StrokeDashArray"
+                stroke-dashoffset="@item.StrokeDashOffset">
+        </circle>
+    }
+    <circle class="mud-donut-hole" cx="21" cy="21" r="13.4"></circle>
+</svg>
+@if (HoveredIndex >= 0 && ShowMudChip)
+{
+    <MudChip Style="@($"top:{MouseOverY}px;left:{MouseOverX}px;position:absolute;height:50px;text-align:center;font-size:7px;")"
+             Color="Color.Dark">
+        <div class="mud-chart-legend-item">
+            <span class="mud-chart-legend-marker"
+                    style="@($"background-color:{InputColorsHex[HoveredIndex]};width:4px;height:4px")">
+            </span>
+            @InputLabels[HoveredIndex]
+            @foreach(var category in InputDataCategories)
+            { 
+                if(InputDataDictionary.TryGetValue(category, out double[] inputData))
+                {
+                    <div class="mud-chart-legend-text">
+                        @($"{inputData[HoveredIndex].ToString("N",NumberFormatInfo)} {category}")
+                    </div>
+                }
+            }
+        </div>
+    </MudChip>
+}

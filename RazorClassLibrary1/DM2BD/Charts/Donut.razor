@@ -1,0 +1,173 @@
+﻿@namespace MudBlazor.DM2BDCustom.Charts
+@inherits MudBlazor.DM2BDCustom.MudChartBase
+
+@if(OnMudGrid)//conflicts with LegendPosition Parameter, for using CSS flexbox
+{
+    <MudGrid Style="height:55vh;">
+        <MudItem xs="12" sm="6" Style="height:100%;">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 @attributes="UserAttributes" class="@Classname" width="@ParentWidth" height="@ParentHeight" viewBox="0 0 42 42">
+                <MudBlazor.Charts.Filters />
+                <circle class="mud-donut-ring" cx="20" cy="20" r="15.91549430918954"></circle>
+                @foreach (var item in _circles)
+                {
+                    <circle class="mud-chart-serie mud-donut-segment"
+                            @onclick="() =>{SelectedIndex = item.Index;}"
+                            @onmouseover="(mouseEventArgs) =>
+                                                      {
+                                                          ShowMudChip = true;
+                                                          MouseOverX = mouseEventArgs.OffsetX;
+                                                          MouseOverY = mouseEventArgs.OffsetY + 56 + 64;
+                                                          HoveredIndex = item.Index;
+                                                      }"
+                            stroke="@(FilteredIndexes.Any(index => index == item.Index) ? Colors.Grey.Darken1: item.ColorHex)"
+                            cx="@item.CX"
+                            cy="@item.CY"
+                            r="@item.Radius"
+                            stroke-dasharray="@item.StrokeDashArray"
+                            stroke-dashoffset="@item.StrokeDashOffset"
+                            filter="@(SelectedIndex == item.Index || HoveredIndex == item.Index ?"url(#lighten)":"")">
+                        @{ if (SelectedIndex == item.Index || HoveredIndex == item.Index)
+                        {
+                            <animate attributeName="stroke-width" values="5;7;5" dur="2s" repeatCount="indefinite" />
+                        } 
+                    }
+                    </circle>
+                }
+                <circle class="mud-donut-hole" cx="21" cy="21" r="13.4"></circle>
+            </svg>
+        </MudItem>
+        <MudHidden Breakpoint="Breakpoint.Xs" Invert="true">
+            @if (HoveredIndex >= 0 && ShowMudChip)
+            {
+                <MudItem xs="12" Style="height:100px">
+                    <MudChip Style="@($"text-align:center;height:100%; width:100%; z-index:1;")"
+                                Color="Color.Dark">
+                        <div class="mud-chart-legend-item" style="text-align:center;white-space:normal;">
+                            <span class="mud-chart-legend-marker"
+                                    style="@($"background-color:{InputColorsHex[HoveredIndex]}")">
+                            </span>
+                            @InputLabels[HoveredIndex]
+                            @foreach(var category in InputDataCategories)
+                            { 
+                                if(InputDataDictionary.TryGetValue(category, out double[] inputData))
+                                {
+                                    <div class="mud-chart-legend-text">
+                                        @($"{inputData[HoveredIndex].ToString("N",NumberFormatInfo)} {category}")
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </MudChip>
+                </MudItem>
+            }
+        </MudHidden>
+        <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true">
+            @if (HoveredIndex >= 0 && ShowMudChip)
+            {
+                <MudChip Style="@($"top:{MouseOverY}px;left:{MouseOverX}px;position:absolute;height:10%; z-index:1;")"
+                            Color="Color.Dark">
+                    <div class="mud-chart-legend-item" style="text-align: center;">
+                        <span class="mud-chart-legend-marker"
+                                style="@($"background-color:{InputColorsHex[HoveredIndex]}")">
+                        </span>
+                        @InputLabels[HoveredIndex]
+                        @foreach(var category in InputDataCategories)
+                        { 
+                            if(InputDataDictionary.TryGetValue(category, out double[] inputData))
+                            {
+                                <div class="mud-chart-legend-text">
+                                    @($"{inputData[HoveredIndex].ToString("N",NumberFormatInfo)} {category}")
+                                </div>
+                            }
+                        }
+                    </div>
+                </MudChip>
+            }
+        </MudHidden>
+        <MudItem xs="12" sm="6" Style="height:100%;">
+            <Legend NumberFormatInfo="@NumberFormatInfo"
+                    FlexBox="true"
+                    FilteredIndexes="@FilteredIndexes"
+                    Data="@_legends"
+                    InputData="@InputData"
+                    InputDataCategories="@InputDataCategories"
+                    InputDataDictionary="@InputDataDictionary"
+                    InputColorsHex="@InputColorsHex"
+                    LegendSearchText="@LegendSearchText"
+                    OnLegendTextSelectedCallback="@OnLegendTextSelected"
+                    OnLegendTextHoveredCallback="@OnLegendTextHovered" />
+        </MudItem>
+    </MudGrid>
+}
+else
+{
+    //Parent layout for this is the default layout of MudDonut(not ours)
+    //LegendPosition parameter applies here
+    //and it is based on original Mudchart's css
+    //not flexbox based
+    <svg xmlns="http://www.w3.org/2000/svg"
+         @attributes="UserAttributes" class="@Classname" width="@ParentWidth" height="@ParentHeight" viewBox="0 0 42 42">
+        <MudBlazor.Charts.Filters />
+        <circle class="mud-donut-ring" cx="20" cy="20" r="15.91549430918954"></circle>
+        @foreach (var item in _circles)
+        {
+            <circle class="mud-chart-serie mud-donut-segment"
+                    @onclick="() =>{SelectedIndex = item.Index;}"
+                    @onmouseover="(mouseEventArgs) =>
+                                  {
+                                      ShowMudChip = true;
+                                      MouseOverX = mouseEventArgs.OffsetX;
+                                      MouseOverY = mouseEventArgs.OffsetY + 56 + 64;
+                                      HoveredIndex = item.Index;
+                                  }"
+                    stroke="@(FilteredIndexes.Any(index => index == item.Index) ? Colors.Grey.Darken1: item.ColorHex)"
+                    cx="@item.CX"
+                    cy="@item.CY"
+                    r="@item.Radius"
+                    stroke-dasharray="@item.StrokeDashArray"
+                    stroke-dashoffset="@item.StrokeDashOffset"
+                    filter="@(SelectedIndex == item.Index || HoveredIndex == item.Index ?"url(#lighten)":"")">
+            @{ 
+                if (SelectedIndex == item.Index || HoveredIndex == item.Index)
+                {
+                    <animate attributeName="stroke-width" values="5;7;5" dur="2s" repeatCount="indefinite" /> 
+                }
+            }
+            </circle>
+        }
+        <circle class="mud-donut-hole" cx="21" cy="21" r="13.4"></circle>
+    </svg>
+    <Legend NumberFormatInfo="@NumberFormatInfo"
+            FlexBox="true"
+            FilteredIndexes="@FilteredIndexes"
+            Data="@_legends"
+            InputData="@InputData"
+            InputDataCategories="@InputDataCategories"
+            InputDataDictionary="@InputDataDictionary"
+            InputColorsHex="@InputColorsHex"
+            LegendSearchText="@LegendSearchText"
+            OnLegendTextSelectedCallback="@OnLegendTextSelected"
+            OnLegendTextHoveredCallback="@OnLegendTextHovered"/>
+    @if (HoveredIndex >= 0 && ShowMudChip)//higher z-index by default
+    {
+        <MudChip Style="@($"top:{MouseOverY}px;left:{MouseOverX}px;position:absolute;text-align:center;height:10%")"
+             Color="Color.Dark">
+        <div class="mud-chart-legend-item">
+            <span class="mud-chart-legend-marker"
+                  style="@($"background-color:{InputColorsHex[HoveredIndex]}")">
+            </span>
+            @InputLabels[HoveredIndex]
+            @foreach(var category in InputDataCategories)
+            { 
+                if(InputDataDictionary.TryGetValue(category, out double[] inputData))
+                {
+                    <div class="mud-chart-legend-text">
+                        @($"{inputData[HoveredIndex].ToString("N",NumberFormatInfo)} {category}")
+                    </div>
+                }
+            }
+        </div>
+    </MudChip>
+    }//put
+}

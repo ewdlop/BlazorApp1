@@ -1,0 +1,59 @@
+﻿@namespace MudBlazor.DM2BDCustom.Charts
+@inherits MudBlazor.DM2BDCustom.MudChartBase
+
+@if (MudChartParent?.ChartOptions.DisableLegend != true)
+{
+    <div @attributes="UserAttributes" class="@Classname" style="@Style">
+        @foreach (var item in GetFilteredData())
+        {
+            @if(LegendHoveredIndex == item.Index)
+            {
+                <MudTooltip>
+                    <ChildContent>
+                        <div class="mud-chart-legend-item">
+                            <span class="mud-chart-legend-marker"
+                                  style="@($"background-color:{item.ColorHex}")">
+                            </span>
+                            <div class="mud-chart-legend-text-dm2bd">
+                                <MudHighlighter Class="mud-primary-text"
+                                                Style="font-weight: bold; padding: 0; background-color: yellow;"
+                                                HighlightedText="@LegendSearchText"
+                                                Text="@($"{item.Labels} ({InputData[item.Index].ToString("N",NumberFormatInfo)})")" />
+                            </div>
+                        </div>
+                    </ChildContent>
+                    <TooltipContent>
+                        <div class="mud-chart-legend-item">
+                            <span class="mud-chart-legend-marker"
+                                  style="@($"background-color:{item.ColorHex}")">
+                            </span>
+                            @item.Labels
+                            @foreach(var category in InputDataCategories)
+                            { 
+                                 <div class="mud-chart-legend-text-dm2bd">
+                                    @($"{InputDataDictionary[category][item.Index].ToString("N",NumberFormatInfo)} {category}")
+                                </div>
+                            }
+                        </div>
+                    </TooltipContent>
+                </MudTooltip>
+            }
+            else
+            {
+                <div class="mud-chart-legend-item">
+                    <span class="mud-chart-legend-marker"
+                            style="@($"background-color:{item.ColorHex}")">
+                    </span>
+                    <div class="mud-chart-legend-text"
+                            @onclick="@(async () => await OnTextSelected(item.Index))"
+                            @onmouseover="@(async () => await OnTextHovered(item.Index))">
+                        <MudHighlighter Class="mud-primary-text"
+                                        Style="font-weight: bold; padding: 0; background-color: yellow;"
+                                        HighlightedText="@LegendSearchText"
+                                        Text="@($"{item.Labels} ({InputData[item.Index].ToString("N",NumberFormatInfo)})")" />
+                    </div>
+                </div>
+            }
+        }
+    </div>
+}

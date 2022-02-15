@@ -1,0 +1,50 @@
+﻿@typeparam T
+@inherits TableSortLabelExtened<T>
+@implements IDisposable
+@using MudBlazor;
+
+<span  @onclick="ToggleSortDirection" class="@Classname" style="@Style" @attributes="@UserAttributes">
+    @if (SortIconPlacementValue == SortIconPlacement.Before)
+    {
+        @if (AppendIcon)
+        {
+            @ChildContent
+        }
+        @if (Enabled)
+        {
+            @if (SortDirection != SortDirection.None)
+            {
+                <MudIcon Icon="@SortIcon" Class="@GetSortIconClass()" />
+            }
+            else
+            {
+                <MudIcon Icon="@SortIcon" Class="mud-table-sort-label-icon"/>
+            }
+        }
+        @if (!AppendIcon)
+        {
+            @ChildContent
+        }
+    }
+    else @if (SortIconPlacementValue == SortIconPlacement.After)
+    {   @if(!AppendIcon)
+        {
+            @ChildContent
+        }
+        @if (Enabled)
+        {
+            @if (SortDirection != SortDirection.None)
+            {
+                <MudIcon Icon="@SortIcon" Class="@GetSortIconClass()" />
+            }
+            else
+            {
+                <MudIcon Icon="@SortIcon" Class="mud-table-sort-label-icon"/>
+            }
+        }
+        @if(AppendIcon)
+        {
+            @ChildContent
+        }
+    }
+</span>
