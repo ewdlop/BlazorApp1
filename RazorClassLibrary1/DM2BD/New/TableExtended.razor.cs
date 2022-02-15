@@ -11,19 +11,10 @@ namespace RazorClassLibrary1.DM2BD.New
         public TableContextExtened<T> ExtendedContext { get;} = new();
         protected override void OnParametersSet()
         {
-            ExtendedContext.SortFieldLabel = TableState.SortLabel;
-            ExtendedContext.SortDirection = TableState.SortDirection;
+            ExtendedContext.SetSortFieldLabel(TableState.SortLabel);
+            ExtendedContext.SetSortDirection(TableState.SortDirection);
+            
             base.OnParametersSet();
         }
-    }
-
-    public partial class TableContextExtened<T> : TableContext<T>
-    {
-        public override string SortFieldLabel
-        {
-            get;
-            public set;
-        }
-
     }
 }
