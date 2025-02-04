@@ -1,0 +1,41 @@
+@code {
+    private Queue<Func<Task>> _taskQueue = new();
+    private bool _isProcessing = false;
+
+    // Add a task to the queue
+    private void EnqueueTask(Func<Task> task)
+    {
+        _taskQueue.Enqueue(task);
+        if (!_isProcessing)
+        {
+            ProcessQueue();
+        }
+    }
+
+    // Process tasks in order
+    private async void ProcessQueue()
+    {
+        _isProcessing = true;
+        while (_taskQueue.Count > 0)
+        {
+            var task = _taskQueue.Dequeue();
+            await task();
+        }
+        _isProcessing = false;
+    }
+
+    // Example of adding a task
+    private void AddTask()
+    {
+        EnqueueTask(async () =>
+        {
+            Console.WriteLine("Processing task...");
+            await Task.Delay(2000); // Simulate work
+            Console.WriteLine("Task completed.");
+            StateHasChanged();
+        });
+    }
+}
+
+<button @onclick="AddTask">Add Task</button>
+<p>Task Queue Count: @_taskQueue.Count</p>
