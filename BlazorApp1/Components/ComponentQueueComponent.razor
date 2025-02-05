@@ -1,0 +1,45 @@
+@using Microsoft.AspNetCore.Components
+
+@code {
+    private Queue<Type> componentQueue = new(); // Queue to hold component types
+    private Type? currentComponent = null;
+
+    // Enqueue a new component type
+    public void EnqueueComponent<TComponent>() where TComponent : IComponent
+    {
+        componentQueue.Enqueue(typeof(TComponent));
+        if (currentComponent == null)
+        {
+            ProcessQueue();
+        }
+        StateHasChanged();
+    }
+
+    // Process queue and render components sequentially
+    private async void ProcessQueue()
+    {
+        if (componentQueue.Count == 0)
+        {
+            currentComponent = null;
+            StateHasChanged();
+            return;
+        }
+
+        currentComponent = componentQueue.Dequeue();
+        StateHasChanged();
+
+        // Simulate processing time (e.g., auto remove after 3 seconds)
+        await Task.Delay(3000);
+
+        // Move to next component
+        ProcessQueue();
+    }
+}
+
+<button @onclick="() => EnqueueComponent<MessageComponent>()">Add Message</button>
+<button @onclick="() => EnqueueComponent<AlertComponent>()">Add Alert</button>
+
+@if (currentComponent != null)
+{
+    <DynamicComponent Type="currentComponent" />
+}
