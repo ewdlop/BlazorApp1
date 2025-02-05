@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dm2bdUiExtensions", "Dm2bdU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorClassLibrary1", "RazorClassLibrary1\RazorClassLibrary1.csproj", "{0A9F5F7D-2F6B-48A8-98BB-C5B41370505B}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.fsproj", "{80FBFB4B-F5C3-4986-861D-75E3F90CA367}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{0A9F5F7D-2F6B-48A8-98BB-C5B41370505B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A9F5F7D-2F6B-48A8-98BB-C5B41370505B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A9F5F7D-2F6B-48A8-98BB-C5B41370505B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80FBFB4B-F5C3-4986-861D-75E3F90CA367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80FBFB4B-F5C3-4986-861D-75E3F90CA367}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80FBFB4B-F5C3-4986-861D-75E3F90CA367}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80FBFB4B-F5C3-4986-861D-75E3F90CA367}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

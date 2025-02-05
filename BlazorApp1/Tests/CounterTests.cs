@@ -1,5 +1,6 @@
 using Bunit;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 using Xunit;
 
@@ -9,8 +10,9 @@ namespace BlazorTests
     public partial class Counter : ComponentBase
     {
         private int count = 0;
-        void Increment() => count++;
+        void Increment(int x) => count++;
 
+#if false
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             builder.OpenElement(0, "button");
@@ -21,12 +23,13 @@ namespace BlazorTests
             builder.AddContent(4, $"Count: {count}");
             builder.CloseElement();
         }
+#endif
     }
-
     // 📌 Unit Test for Counter Component
-    public class CounterTests : TestContext
+    public partial class CounterTests : TestContext
     {
         [Fact]
+#pragma warning disable xUnit1024 // Test methods cannot have overloads
         public void Counter_ShouldIncrement_WhenButtonClicked()
         {
             // Arrange: Render component

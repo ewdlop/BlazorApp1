@@ -7,7 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="bunit" Version="1.38.5" />
       <PackageReference Include="MudBlazor" Version="6.0.6" />
+      <PackageReference Include="xunit" Version="2.9.3" />
     </ItemGroup>
 
     <ItemGroup>
