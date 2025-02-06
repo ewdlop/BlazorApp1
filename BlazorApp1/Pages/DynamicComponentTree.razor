@@ -1,0 +1,67 @@
+﻿@*Example usage in a Blazor page*@
+@page "/dynamic-components"
+@using BlazorApp1.Components.DataStructures
+@using BlazorApp1.Components.Services
+@inject ComponentService ComponentService
+
+<div>
+    @foreach (var childTree in _componentTree?.Children ?? Array.Empty<ComponentTree<IComponent>>())
+    {
+        @RenderComponent(childTree.Component)
+    }
+</div>
+
+@code {
+    private ComponentTree<IComponent>? _componentTree;
+    private List<IComponent> _queuedComponents = new();
+
+    protected override void OnInitialized()
+    {
+        // Create a tree of components
+        var mainLayout = new MainLayout();
+        _componentTree = new ComponentTree<IComponent>(mainLayout)
+            .AddChild(new ComponentTree<IComponent>(new NavMenu()))
+            .AddChild(new ComponentTree<IComponent>(new Counter()));
+
+        // Transform all components in the tree
+        _componentTree = _componentTree.Map(component =>
+        {
+            // Example transformation
+            if (component is Counter counter)
+            {
+                // Modify counter properties
+                return counter;
+            }
+            return component;
+        });
+
+        // Queue components for rendering
+        var renderQueue = new ComponentQueue<IComponent>();
+        renderQueue
+            .Enqueue(new Counter())
+            .Enqueue(new FetchData())
+            .Map(component =>
+            {
+                // Pre-render transformation
+                ComponentService.QueueForRender(component);
+                return component;
+            });
+
+        // Navigation stack example
+        var navStack = new ComponentStack<IComponent>();
+        navStack
+            .Push(new MainLayout())
+            .Push(new Counter())
+            .Map(component =>
+            {
+                ComponentService.PushToNavigationStack(component);
+                return component;
+            });
+    }
+
+    private RenderFragment RenderComponent(IComponent component) => builder =>
+    {
+        builder.OpenComponent(0, component.GetType());
+        builder.CloseComponent();
+    };
+}
