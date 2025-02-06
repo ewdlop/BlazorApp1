@@ -1,0 +1,37 @@
+﻿@*MaybeComponent.razor - Component using Maybe monad*@
+<div>
+    @if (_userData.TryGetValue(out var user))
+    {
+        <div>
+            <h3>User Details</h3>
+            <p>Name: @user.Name</p>
+            <p>Email: @user.Email</p>
+        </div>
+    }
+    else
+    {
+        <p>No user data available</p>
+    }
+</div>
+
+@code {
+    
+    private Maybe<UserData> _userData = Maybe<UserData>.None();
+
+
+    protected override void OnInitialized()
+    {
+        // Example of using Maybe monad
+        _userData = Maybe<UserData>.Some(new UserData
+            {
+                Id = 1,
+                Name = "John Doe",
+                Email = "john@example.com"
+            });
+
+        // Example of Maybe transformations
+        var upperNameMaybe = _userData
+            .Map(user => user.Name.ToUpper())
+            .Bind(name => Maybe<UserData>.Some(new UserData { Name = name }));
+    }
+}

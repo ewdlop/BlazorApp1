@@ -1,5 +1,5 @@
 ﻿//// HookBuilder.fs
-//namespace ClassLibrary1
+namespace ClassLibrary1
 
 ///// Computation expression 用於構建 hooks 的工作流程
 //type HooksBuilder() =

@@ -1,0 +1,19 @@
+@* @using Microsoft.AspNetCore.Components
+@code {
+    private OneOf<MessageComponent, AlertComponent> currentComponent;
+
+    void ShowMessage() => currentComponent = new MessageComponent();
+    void ShowAlert() => currentComponent = new AlertComponent();
+}
+
+<button @onclick="ShowMessage">Show Message</button>
+<button @onclick="ShowAlert">Show Alert</button>
+
+@if (currentComponent.IsT0)
+{
+    <MessageComponent />
+}
+else if (currentComponent.IsT1)
+{
+    <AlertComponent />
+}*@

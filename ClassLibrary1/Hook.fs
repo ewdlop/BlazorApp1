@@ -1,5 +1,5 @@
 ﻿//// Hooks.fs (Example hooks)
-//namespace BlazorFSharp.Hooks
+namespace ClassLibrary1
 
 //open Microsoft.AspNetCore.Components
 //open Microsoft.FSharp.Reflection

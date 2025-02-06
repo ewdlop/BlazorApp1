@@ -1,0 +1,65 @@
+﻿@*AsyncResultComponent.razor - Component using AsyncResult monad*@
+@inject HttpClient Http
+
+<div>
+    @if (_loading)
+    {
+        <p>Loading...</p>
+    }
+    else if (_userResult.IsSuccess)
+    {
+        <div>
+            <h3>User Details</h3>
+            <p>Name: @_userResult.Value.Name</p>
+            <p>Email: @_userResult.Value.Email</p>
+        </div>
+    }
+    else
+    {
+        <p>Error: @_userResult.Error</p>
+    }
+</div>
+
+@code {
+    private bool _loading = true;
+    private Result<UserData> _userResult = Result<UserData>.Failure("Not loaded");
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Example of using AsyncResult monad
+        var asyncResult = AsyncResult<UserData>.FromTask(LoadUserAsync());
+
+        // Chain async operations
+        _userResult = await asyncResult.BindAsync(async user =>
+        {
+            // Simulate additional async processing
+            await Task.Delay(100);
+            return Result<UserData>.Success(new UserData
+                {
+                    Name = user.Name.ToUpper(),
+                    Email = user.Email
+                });
+        });
+
+        _loading = false;
+    }
+
+    private async Task<Result<UserData>> LoadUserAsync()
+    {
+        try
+        {
+            // Simulate API call
+            await Task.Delay(1000);
+            return Result<UserData>.Success(new UserData
+                {
+                    Id = 1,
+                    Name = "John Doe",
+                    Email = "john@example.com"
+                });
+        }
+        catch (Exception ex)
+        {
+            return Result<UserData>.Failure(ex.Message);
+        }
+    }
+}

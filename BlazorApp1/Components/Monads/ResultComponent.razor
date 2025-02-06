@@ -1,0 +1,47 @@
+﻿@*ResultComponent.razor - Component using Result monad*@
+<div>
+    @if (_userResult.IsSuccess)
+    {
+        <div>
+            <h3>User Details</h3>
+            <p>Name: @_userResult.Value.Name</p>
+            <p>Email: @_userResult.Value.Email</p>
+        </div>
+    }
+    else
+    {
+        <p>Error: @_userResult.Error</p>
+    }
+</div>
+
+@code {
+
+    private Result<UserData> _userResult = Result<UserData>.Failure("Not loaded");
+
+    protected override void OnInitialized()
+    {
+        // Example of using Result monad
+        _userResult = Result<UserData>.Success(new UserData
+            {
+                Id = 1,
+                Name = "John Doe",
+                Email = "john@example.com"
+            });
+
+        // Example of Result transformations
+        var processedResult = _userResult
+            .Map(user => new UserData
+                {
+                    Name = user.Name.ToUpper(),
+                    Email = user.Email
+                })
+            .Bind(user => ValidateUser(user));
+    }
+
+    private Result<UserData> ValidateUser(UserData user)
+    {
+        return string.IsNullOrEmpty(user.Email)
+            ? Result<UserData>.Failure("Email is required")
+            : Result<UserData>.Success(user);
+    }
+}
