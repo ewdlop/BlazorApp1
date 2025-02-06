@@ -6,7 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="TodoComponent.fs" />
+    <Compile Include="FunctionalComponent.fs" />
+    <Compile Include="SearchComponent.fs" />
+    <Compile Include="CustomHooks.fs" />
+    <Compile Include="CounterComponent.fs" />
+    <Compile Include="HookBuilder.fs" />
+    <Compile Include="Hook.fs" />
     <Compile Include="Library.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.1" />
   </ItemGroup>
 
 </Project>
