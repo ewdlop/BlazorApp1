@@ -1,0 +1,27 @@
+﻿.tree-item {
+    margin: 0.25rem 0;
+}
+
+.tree-item ::deep .tree-item-content {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+.tree-item ::deep .tree-item-content:hover {
+    background-color: #f0f0f0;
+}
+
+.tree-item ::deep .expand-icon {
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.tree-item ::deep .tree-item-children {
+    margin-left: 1.5rem;
+}
+
+.tree-item ::deep .item-text {
+    user-select: none;
+}

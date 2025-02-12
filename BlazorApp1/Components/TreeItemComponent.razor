@@ -1,0 +1,22 @@
+﻿@using BlazorApp1.Components.DataStructures
+<div class="tree-item">
+    <div class="tree-item-content" @onclick="ToggleExpand">
+        @if (Node.Children.Any())
+        {
+            <span class="expand-icon">
+                @(Node.IsExpanded ? "▼" : "▶")
+            </span>
+        }
+        <span class="item-text">@Node.Text</span>
+    </div>
+
+    @if (Node.IsExpanded && Node.Children.Any())
+    {
+        <div class="tree-item-children">
+            @foreach (var child in Node.Children)
+            {
+                <TreeItemComponent Node="child" />
+            }
+        </div>
+    }
+</div>

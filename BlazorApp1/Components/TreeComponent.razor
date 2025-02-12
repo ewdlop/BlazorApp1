@@ -1,0 +1,8 @@
+﻿@using BlazorApp1.Components.DataStructures
+
+<div class="tree-component">
+    @foreach (var node in Items ?? new List<TreeNode>())
+    {
+        <TreeItemComponent Node="node" />
+    }
+</div>
