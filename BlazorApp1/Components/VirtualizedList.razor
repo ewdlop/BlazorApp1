@@ -1,0 +1,42 @@
+﻿@typeparam TItem 
+@typeparam TKey where TKey : notnull
+
+<Virtualize TItem="TItem" 
+    Context="item"
+    ItemsProvider="ItemProviderAsync"
+    ItemSize="@ItemSizeInPixel"
+    Items="@Items"
+    MaxItemCount="@MaxItemCount"
+    OverscanCount="@OverscanCount"
+    SpacerElement="@SpacerElement">
+    <EmptyContent>
+        @if (EmptyContent is not null)
+        {
+            @EmptyContent
+        }
+        else
+        {
+            <div>No items to display</div>
+        }
+    </EmptyContent>
+    <ItemContent>
+        @if (ItemContent is not null)
+        {
+            @ItemContent(item)
+        }
+        else
+        {
+            <div>@item</div>
+        }
+    </ItemContent>
+    <Placeholder>
+        @if (Placeholder is not null)
+        {
+            @Placeholder
+        }
+        else
+        {
+            <div>Loading...</div>
+        }
+    </Placeholder>
+</Virtualize>
